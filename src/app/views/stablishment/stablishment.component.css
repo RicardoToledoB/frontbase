@@ -10,6 +10,10 @@
   bottom: 15px;
 }
 
+.separator {
+  padding: 5px;
+}
+
 .more-button {
   position: absolute;
   top: 5px;
@@ -19,3 +23,30 @@
 .dashboard-card-content {
   text-align: center;
 }
+
+
+
+
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  /* permite que se acomoden en varias filas si no hay espacio */
+  width: 100%;
+}
+
+.search-box {
+  flex: 1;
+  /* ocupa todo el espacio disponible */
+  min-width: 250px; 
+  /* asegura que no se rompa en pantallas chicas */
+}
+
+.full-width {
+  width: 100%;
+  overflow-x: auto;
+  /* scroll si la tabla es muy ancha */
+}
+
