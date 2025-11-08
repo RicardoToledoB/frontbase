@@ -11,16 +11,36 @@
       <a mat-list-item routerLink="view/home" routerLinkActive="active-link">
         <div class="menu-item">
           <mat-icon>home</mat-icon>
-          <span>Home</span>
+          <span>Mi Perfil</span>
         </div>
       </a>
 
-      <a mat-list-item routerLink="view/stablishment" routerLinkActive="active-link">
+      <a mat-list-item routerLink="view/register" routerLinkActive="active-link">
         <div class="menu-item">
-          <mat-icon>apartment</mat-icon>
-          <span>Stablishment</span>
+          <mat-icon>work_update</mat-icon>
+          <span>Registro</span>
         </div>
       </a>
+
+
+      <!-- Mantenedor con submenú -->
+      <a mat-list-item [matMenuTriggerFor]="mantenedorMenu">
+        <div class="menu-item">
+          <mat-icon>build</mat-icon>
+          <span>Mantenedor</span>
+          <mat-icon class="submenu-arrow">expand_more</mat-icon>
+        </div>
+      </a>
+      <mat-menu #mantenedorMenu="matMenu">
+        <button mat-menu-item routerLink="view/stablishment" routerLinkActive="active-link">
+          <mat-icon>apartment</mat-icon>
+          <span>Establecimientos</span>
+        </button>
+        <button mat-menu-item routerLink="view/user" routerLinkActive="active-link">
+          <mat-icon>group</mat-icon>
+          <span>Usuarios</span>
+        </button>
+      </mat-menu>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -30,24 +50,25 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       }
-      <span>mat02</span>
+      
+      <span class="title"><mat-icon>work_update</mat-icon> Control de Bienes Especiales</span>
       <span class="example-spacer"></span>
       <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">
         <mat-icon>person</mat-icon>
-        <span>Usuario</span>
+        <span>{{ user?.email }}</span>
       </button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item>
           <mat-icon>settings</mat-icon>
-          <span>Profile</span>
+          <span>Mi Perfil</span>
         </button>
         <button mat-menu-item>
           <mat-icon>password</mat-icon>
-          <span>Change Password</span>
+          <span>Cambiar Clave</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="logout()">
           <mat-icon>exit_to_app</mat-icon>
-          <span>Close</span>
+          <span>Cerrar</span>
         </button>
       </mat-menu>
 

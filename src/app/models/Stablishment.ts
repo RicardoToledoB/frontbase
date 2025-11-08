@@ -1,6 +1,6 @@
 export interface Stablishment {
-  id:number;
+  id?:number;
   name: string;
-  createdAt: string;
+  createdAt?: string;
 }
 

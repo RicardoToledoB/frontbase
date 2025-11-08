@@ -36,4 +36,33 @@
   font-size: 24px;
   width: 24px;
   height: 24px;
+  flex-shrink: 0;  
 }
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;              /* separa ícono y texto */
+  width: 100%;
+}
+
+.menu-item mat-icon {
+  flex-shrink: 0;        /* evita que el ícono se achique o desaparezca */
+}
+
+.menu-text {
+  flex-grow: 1;          /* ocupa el espacio restante */
+  overflow: hidden;      /* evita desbordes */
+  text-overflow: ellipsis; /* pone "..." si el texto es muy largo */
+  white-space: nowrap;   /* mantiene el texto en una sola línea */
+}
+
+.logo {
+  height: 32px;
+  margin-right: 8px;
+}
+.title {
+  color: white;
+  font-weight: 400;
+}
+
+

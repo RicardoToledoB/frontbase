@@ -19,3 +19,12 @@
 .dashboard-card-content {
   text-align: center;
 }
+.mat-card-avatar.mat-icon {
+  background: #e0e0e0;
+  border-radius: 50%;
+  font-size: 24px;      /* tamaño del ícono dentro del avatar */
+  line-height: 40px;    /* centra verticalmente */
+  text-align: center;   /* centra horizontalmente */
+  width: 40px;
+  height: 40px;
+}

@@ -1,14 +1,22 @@
+@if (user) {
 <div class="grid-container">
-  <h1 class="mat-h1">Home</h1>
-  <mat-grid-list cols="2" rowHeight="350px">
-    <mat-card appearance="outlined">
-      <mat-card-header>
-        <mat-card-title> Australian Shepherd</mat-card-title>
-        <mat-card-subtitle>Herding group</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-actions>
-        <button mat-flat-button>Learn More</button>
-      </mat-card-actions>
-    </mat-card>
-  </mat-grid-list>
+  <h1 class="mat-h1">Mi Perfil</h1>
+
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar class="profile-avatar"><mat-icon mat-card-avatar>person</mat-icon></div>
+      <mat-card-title>{{ user.firstName }} {{ user.firstLastName }}</mat-card-title>
+      <mat-card-subtitle>{{ user.username }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p><strong>Nombre completo:</strong> {{ user.firstName }} {{ user.secondName }} {{ user.firstLastName }} {{ user.secondLastName }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>RUT:</strong> {{ user.rut }}</p>
+      <p><strong>Creado:</strong> {{ user.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+      <p><strong>Actualizado:</strong> {{ user.updatedAt | date:'dd/MM/yyyy HH:mm' }}</p>
+    </mat-card-content>
+  </mat-card>
 </div>
+}
+

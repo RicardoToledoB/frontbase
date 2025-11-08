@@ -1,52 +1,16 @@
-.grid-container {
-  margin: 20px;
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-.dashboard-card {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  right: 15px;
-  bottom: 15px;
+mat-card {
+  width: 350px;
+  padding: 20px;
 }
 
-.more-button {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-}
-
-.dashboard-card-content {
-  text-align: center;
-}
-
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
+.full-width {
   width: 100%;
-}
-
-.example-full-width {
-  width: 100%;
-}
-
-td {
-  padding-right: 8px;
-}
-
-.example-container mat-form-field + mat-form-field {
-  margin-left: 8px;
-}
-
-.example-right-align {
-  text-align: right;
-}
-
-input.example-right-align::-webkit-outer-spin-button,
-input.example-right-align::-webkit-inner-spin-button {
-  display: none;
-}
-
-input.example-right-align {
-  -moz-appearance: textfield;
+  margin-bottom: 15px;
 }

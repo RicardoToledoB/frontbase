@@ -1,0 +1,33 @@
+<mat-card *ngIf="register">
+  <mat-card-header>
+    <mat-card-title>Detalle de Registro #{{ register.id }}</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <h3>Datos Generales</h3>
+    <p><b>Inventario:</b> {{ register.n_inventary }}</p>
+    <p><b>Proyecto:</b> {{ register.project }}</p>
+    <p><b>Financiamiento:</b> {{ register.financing }}</p>
+    <p><b>Establecimiento:</b> {{ register.stablishment?.name }}</p>
+    <p><b>Estado:</b> {{ register.state }}</p>
+
+    <h3>Proveedor</h3>
+    <p><b>Nombre:</b> {{ register.provider }}</p>
+    <p><b>RUT:</b> {{ register.rut_provider }}</p>
+    <p><b>Factura:</b> {{ register.n_fact }} | {{ register.date_fact }}</p>
+
+    <h3>Equipo</h3>
+    <p><b>Descripción:</b> {{ register.description_property }}</p>
+    <p><b>Marca:</b> {{ register.brand }}</p>
+    <p><b>Modelo:</b> {{ register.model }}</p>
+    <p><b>N° Serie:</b> {{ register.n_serie }}</p>
+
+    <h3>Usuario</h3>
+    <p><b>Creado por:</b> {{ register.user?.firstName }} {{ register.user?.firstLastName }}</p>
+    <p><b>Email:</b> {{ register.user?.email }}</p>
+
+    <button mat-flat-button color="primary" (click)="back()">
+      <mat-icon>arrow_back</mat-icon> Volver
+    </button>
+  </mat-card-content>
+</mat-card>

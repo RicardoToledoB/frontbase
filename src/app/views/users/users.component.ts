@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatCardModule } from "@angular/material/card";
 import { MatTableModule } from '@angular/material/table';
@@ -10,30 +11,25 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from './modal/modal.component';
-import { Stablishment } from '../../models/Stablishment';
-import { StablishmentService } from '../../services/stablishment.service';
 import { CommonModule, DatePipe } from '@angular/common';
-
-
-
+import { User } from '../../models/User';
+import { UserService } from '../../services/user.service';
 @Component({
-  selector: 'app-stablishment',
-  standalone: true,
+  selector: 'app-users',
   imports: [
     CommonModule, MatGridListModule, MatCardModule, MatTableModule,
     MatFormFieldModule, MatInputModule, MatDividerModule,
     MatButtonModule, MatSelectModule, MatIconModule],
-  templateUrl: './stablishment.component.html',
-  styleUrls: ['./stablishment.component.css']
+  templateUrl: './users.component.html',
+  styleUrl: './users.component.css'
 })
-export class StablishmentComponent {
+export class UsersComponent {
+  users: User[] = [];
 
-  stablishments: Stablishment[] = [];
-
-  displayedColumns: string[] = ['id', 'name', 'createdAt', 'edit'];
+  displayedColumns: string[] = ['id', 'email','username', 'createdAt', 'edit'];
 
 
-  constructor(private dialog: MatDialog, private stablishmentService: StablishmentService) { }
+  constructor(private dialog: MatDialog, private userService: UserService) { }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(ModalComponent, {
@@ -44,10 +40,13 @@ export class StablishmentComponent {
     dialogRef.afterClosed().subscribe(result => {
 
       if (result) {
-        const newStablishment: Stablishment = { name: result };
-        this.stablishmentService.create(newStablishment).subscribe(saved => {
+        const newUser: User = {
+          name: result,
+          firstName: ''
+        };
+        this.userService.create(newUser).subscribe(saved => {
           console.log('Guardado en backend:', saved);
-          this.stablishments = [...this.stablishments, saved]; // refrescar tabla local
+          this.users = [...this.users, saved]; // refrescar tabla local
         });
       }
 
@@ -60,15 +59,14 @@ export class StablishmentComponent {
   }
 
   loadStablishments(): void {
-    this.stablishmentService.getAll().subscribe(data => {
-      this.stablishments = data;
-      console.log(this.stablishments);
+    this.userService.getAll().subscribe(data => {
+      this.users = data;
+      console.log(this.users);
     });
   }
 
 
-  edit(data:any){
-     console.log(data.id);
+  edit(data: any) {
+    console.log(data.id);
   }
-
 }

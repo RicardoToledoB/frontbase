@@ -1,0 +1,77 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Inventario de Bienes</h1>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Listado General</mat-card-title>
+      <span class="spacer"></span>
+      <button mat-raised-button color="primary" >
+        <mat-icon>add</mat-icon> Nuevo
+      </button>
+      <mat-form-field appearance="outline" class="search-box">
+        <mat-label>Buscar</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar por descripción..." />
+      </mat-form-field>
+    </mat-card-header>
+
+    <mat-card-content>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 full-width">
+
+        <!-- ID -->
+        <ng-container matColumnDef="id">this.router.navigate(['/view/register', row.id]);
+          <th mat-header-cell *matHeaderCellDef>#</th>
+          <td mat-cell *matCellDef="let r">{{ r.id }}</td>
+        </ng-container>
+
+        <!-- Inventario -->
+        <ng-container matColumnDef="n_inventary">
+          <th mat-header-cell *matHeaderCellDef>N° Inventario</th>
+          <td mat-cell *matCellDef="let r">{{ r.n_inventary }}</td>
+        </ng-container>
+
+        <!-- Descripción -->
+        <ng-container matColumnDef="description_property">
+          <th mat-header-cell *matHeaderCellDef>Descripción</th>
+          <td mat-cell *matCellDef="let r">{{ r.description_property }}</td>
+        </ng-container>
+
+        <!-- Establecimiento -->
+        <ng-container matColumnDef="stablishment">
+          <th mat-header-cell *matHeaderCellDef>Establecimiento</th>
+          <td mat-cell *matCellDef="let r">{{ r.stablishment?.name }}</td>
+        </ng-container>
+
+        <!-- Estado -->
+        <ng-container matColumnDef="state">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let r">
+            <span class="estado" [ngClass]="{'pendiente': r.state === 'PENDIENTE'}">{{ r.state }}</span>
+          </td>
+        </ng-container>
+
+        <!-- Usuario -->
+        <ng-container matColumnDef="user">
+          <th mat-header-cell *matHeaderCellDef>Creado por</th>
+          <td mat-cell *matCellDef="let r">{{ r.user?.firstName }} {{ r.user?.firstLastName }}</td>
+        </ng-container>
+
+        <!-- Acciones -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell *matCellDef="let r">
+            <button mat-icon-button color="primary" (click)="viewDetail(r)">
+              <mat-icon>search</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <br />
+      <mat-paginator [length]="totalElements" [pageSize]="pageSize" [pageIndex]="pageIndex"
+        [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons (page)="onPaginateChange($event)">
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>
