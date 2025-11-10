@@ -17,6 +17,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RegisterService } from '../../services/register.service';
 import { Register } from '../../models/Register';
 import { ModalComponent } from './modal/modal.component';
+import { MatDivider } from "@angular/material/divider";
 
 @Component({
   selector: 'app-registers',
@@ -34,9 +35,9 @@ import { ModalComponent } from './modal/modal.component';
     MatDialogModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    MatTooltipModule
-   
-  ],
+    MatTooltipModule,
+    MatDivider
+],
   templateUrl: './registers.component.html',
   styleUrls: ['./registers.component.css'],
 })

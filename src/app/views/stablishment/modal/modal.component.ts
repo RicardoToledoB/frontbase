@@ -4,11 +4,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { Stablishment } from '../../../models/Stablishment';
+import { MatDivider } from "@angular/material/divider";
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, MatInputModule, FormsModule],
+  imports: [MatDialogModule, MatButtonModule, MatInputModule, FormsModule, MatDivider],
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.css']
 })

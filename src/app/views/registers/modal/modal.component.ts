@@ -13,7 +13,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { Register } from '../../../models/Register';
 import { Stablishment } from '../../../models/Stablishment';
 import { StablishmentService } from '../../../services/stablishment.service';
-import { AuthService } from '../../../services/security/auth.service'; 
+import { AuthService } from '../../../services/security/auth.service';
+import { MatDivider } from "@angular/material/divider"; 
 
 @Component({
   selector: 'app-modal',
@@ -31,8 +32,9 @@ import { AuthService } from '../../../services/security/auth.service';
     MatOptionModule,
     MatProgressSpinnerModule,
     MatDatepickerModule,
-    MatNativeDateModule
-  ]
+    MatNativeDateModule,
+    MatDivider
+]
 })
 export class ModalComponent implements OnInit {
   form!: FormGroup;

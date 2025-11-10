@@ -5,11 +5,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common'; // 🔹 importa CommonModule
 import { User } from '../../../models/User';
+import { MatDivider } from "@angular/material/divider";
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, FormsModule, MatInputModule, MatButtonModule],
+  imports: [CommonModule, MatDialogModule, FormsModule, MatInputModule, MatButtonModule, MatDivider],
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.css']
 })
