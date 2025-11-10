@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "build": "ng build --configuration production",
-    "start": "npx serve -s dist/my-app",  
+    "start": "npx serve -s dist/mat02",  
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
