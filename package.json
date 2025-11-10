@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "build": "ng build --configuration production",
-    "start": "npx serve -s dist/mat02",  
+    "start": "npx serve -s dist/mat02/browser -l $PORT",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
