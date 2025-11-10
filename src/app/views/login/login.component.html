@@ -1,24 +1,52 @@
 <div class="login-container">
   <mat-card>
-    <mat-card-title>Iniciar Sesión</mat-card-title>
+    <mat-card-title class="flex items-center gap-2">
+      <mat-icon aria-hidden="true">lock</mat-icon>
+      Iniciar Sesión
+    </mat-card-title>
+
     <mat-divider></mat-divider>
     <br/>
+
     <mat-card-content>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- Correo con icono -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Correo electrónico</mat-label>
-          <input matInput type="email" formControlName="email" placeholder="ej: ricardo.toledo.b@redsalud.gob.cl">
+          <mat-icon matPrefix aria-hidden="true">mail</mat-icon>
+          <input
+            matInput
+            type="email"
+            formControlName="email"
+            placeholder="ej: ricardo.toledo.b@redsalud.gob.cl"
+            aria-label="Correo electrónico"
+          />
         </mat-form-field>
 
+        <!-- Contraseña con candado y toggle -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Contraseña</mat-label>
-          <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password">
-          <button mat-icon-button matSuffix type="button" (click)="clickEvent($event)">
+          <mat-icon matPrefix aria-hidden="true">vpn_key</mat-icon>
+          <input
+            matInput
+            [type]="hide() ? 'password' : 'text'"
+            formControlName="password"
+            aria-label="Contraseña"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="clickEvent($event)"
+            [attr.aria-label]="hide() ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+          >
             <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
         </mat-form-field>
 
+        <!-- Botón ingresar con icono -->
         <button mat-raised-button color="primary" class="full-width" type="submit">
+          <mat-icon aria-hidden="true" class="mr-1">login</mat-icon>
           Ingresar
         </button>
       </form>
