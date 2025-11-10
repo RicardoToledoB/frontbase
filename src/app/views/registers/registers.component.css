@@ -1,26 +1,56 @@
-.full-width {
-  width: 100%;
-  overflow-x: auto;
-}
-
-mat-card {
-  margin: 1rem;
-}
-
-mat-header-cell, mat-cell {
-  white-space: nowrap;
+.grid-container {
+  margin: 20px;
 }
 
 .spacer {
   flex: 1 1 auto;
 }
 
-.estado-pendiente {
-  color: #e53935;
-  font-weight: bold;
+.dashboard-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+}
+
+.separator {
+  padding: 5px;
+}
+
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+.dashboard-card-content {
+  text-align: center;
+}
+
+
+
+
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  /* permite que se acomoden en varias filas si no hay espacio */
+  width: 100%;
 }
 
 .search-box {
-  width: 300px;
-  margin-left: 1rem;
+  flex: 1;
+  /* ocupa todo el espacio disponible */
+  min-width: 250px; 
+  /* asegura que no se rompa en pantallas chicas */
 }
+
+.full-width {
+  width: 100%;
+  overflow-x: auto;
+  /* scroll si la tabla es muy ancha */
+}
+

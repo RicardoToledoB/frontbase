@@ -31,6 +31,7 @@ export const routes: Routes = [
       { path: 'view/home', component: HomeComponent, canActivate: [AuthGuard] },
       { path: 'view/register', component: RegistersComponent, canActivate: [AuthGuard] },
       { path: 'view/register/:id', component: DetailRegisterComponent, canActivate: [AuthGuard] }, // 👈 nueva ruta detalle
+    
       { path: 'view/user', component: UsersComponent, canActivate: [AuthGuard] },
       { path: 'view/stablishment', component: StablishmentComponent, canActivate: [AuthGuard] }
     ]

@@ -16,6 +16,14 @@ export class UserService {
     return this.http.get<User[]>(`${this.apiUrl}/all`);
   }
 
+  changePassword(id: number, oldPassword: string, newPassword: string) {
+  return this.http.put(`${this.apiUrl}/${id}/change-password`, {
+    oldPassword,
+    newPassword
+  });
+}
+
+
   // GET by email
   getByEmail(email: string): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/email/${email}`);

@@ -1,11 +1,25 @@
-<h2 mat-dialog-title>New</h2>
-<mat-dialog-content class="mat-typography">
-  <mat-form-field appearance="outline" style="width:100%">
-    <mat-label>Nombre</mat-label>
-    <input matInput [(ngModel)]="name" placeholder="Ingrese un nombre" />
+<h2 mat-dialog-title>{{ data?.id ? 'Editar Establecimiento' : 'Nuevo Establecimiento' }}</h2>
+
+<mat-dialog-content>
+  <mat-form-field appearance="outline" style="width: 100%">
+    <mat-label>Nombre del establecimiento</mat-label>
+    <input
+      matInput
+      [(ngModel)]="stablishment.name"
+      placeholder="Ingrese el nombre"
+      required
+    />
   </mat-form-field>
 </mat-dialog-content>
+
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button color="primary" (click)="save()">Guardar</button>
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="save()"
+    [disabled]="!stablishment.name.trim()"
+  >
+    Guardar
+  </button>
 </mat-dialog-actions>

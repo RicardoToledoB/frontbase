@@ -1,94 +1,152 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { MatCard, MatCardModule } from "@angular/material/card";
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
+import { Router } from '@angular/router';
+
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDialog, MatDialogModule } from "@angular/material/dialog";
-import { DialogModule } from '@angular/cdk/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { RegisterService } from '../../services/register.service';
+import { Register } from '../../models/Register';
+import { ModalComponent } from './modal/modal.component';
 
 @Component({
   selector: 'app-registers',
-  templateUrl: './registers.component.html',
-  styleUrls: ['./registers.component.css'],
+  standalone: true,
   imports: [
     CommonModule,
-    MatCardModule,
-    MatGridListModule,
-    MatFormFieldModule,
-    MatInputModule,
+    // Material necesarios para que el template NO marque rojo:
     MatTableModule,
     MatPaginatorModule,
-    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatIconModule,
-    MatDividerModule,
-    MatSelectModule,
-    MatCard,
+    MatButtonModule,
     MatDialogModule,
-    DialogModule,
-],
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule
+   
+  ],
+  templateUrl: './registers.component.html',
+  styleUrls: ['./registers.component.css'],
 })
 export class RegistersComponent implements OnInit {
-  
-  displayedColumns: string[] = [
+  displayedColumns = [
     'id',
     'n_inventary',
     'description_property',
     'stablishment',
     'state',
     'user',
-    'actions'
+    'actions',
   ];
 
-  dataSource = new MatTableDataSource<any>([]);
+  dataSource = new MatTableDataSource<Register>([]);
   totalElements = 0;
   pageSize = 10;
   pageIndex = 0;
+  searchTerm = '';
+  isLoading = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private http: HttpClient, private router: Router, private dialog: MatDialog) { }
+  constructor(
+    private registerService: RegisterService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadRegisters();
   }
 
-
-
-
-  applyFilter(event: Event) {
-    const value = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.dataSource.filter = value;
+  loadRegisters(): void {
+    this.isLoading = true;
+    this.registerService
+      .getPaginated(this.pageIndex, this.pageSize, 'id,asc', this.searchTerm)
+      .subscribe({
+        next: (res) => {
+          this.dataSource.data = res.content;
+          this.totalElements = res.totalElements;
+          this.isLoading = false;
+        },
+        error: () => {
+          this.showMessage('Error al cargar registros');
+          this.isLoading = false;
+        },
+      });
   }
 
-  loadRegisters() {
-    const url = `http://localhost:8080/api/v1/registers/getAllPaginated?page=${this.pageIndex}&size=${this.pageSize}&sort=id,asc`;
-    this.http.get<any>(url).subscribe({
-      next: (response) => {
-        this.dataSource.data = response.content;
-        this.totalElements = response.totalElements;
-      },
-      error: (err) => console.error('Error al cargar registros', err),
-    });
-  }
-
-  
-
-  onPaginateChange(event: PageEvent) {
+  onPaginateChange(event: PageEvent): void {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.loadRegisters();
   }
 
-  viewDetail(row: any) {
-   this.router.navigate(['/view/register', row.id]);
+  applyFilter(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.searchTerm = input.value.trim().toLowerCase();
+    this.pageIndex = 0;
+    this.loadRegisters();
+  }
+
+  openModal(register?: Register): void {
+    const dialogRef = this.dialog.open(ModalComponent, {
+      width: '600px',
+      data: register ? { ...register } : {},
+    });
+
+    dialogRef.afterClosed().subscribe((result: Register | undefined) => {
+      if (!result) return;
+
+      if (result.id) {
+        this.updateRegister(result);
+      } else {
+        this.createRegister(result);
+      }
+    });
+  }
+
+  createRegister(register: Register): void {
+    this.registerService.create(register).subscribe({
+      next: () => {
+        this.showMessage('Registro creado correctamente');
+        this.loadRegisters();
+      },
+      error: () => this.showMessage('Error al crear registro'),
+    });
+  }
+
+  editRegister(register: Register): void {
+    this.openModal(register);
+  }
+
+  updateRegister(register: Register): void {
+    this.registerService.update(register.id!, register).subscribe({
+      next: () => {
+        this.showMessage('Registro actualizado correctamente');
+        this.loadRegisters();
+      },
+      error: () => this.showMessage('Error al actualizar registro'),
+    });
+  }
+
+  viewDetail(register: Register): void {
+    this.router.navigate(['/view/register', register.id]);
+  }
+
+  private showMessage(msg: string): void {
+    this.snackBar.open(msg, 'Cerrar', { duration: 3000 });
   }
 }

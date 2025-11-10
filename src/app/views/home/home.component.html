@@ -8,15 +8,21 @@
       <mat-card-title>{{ user.firstName }} {{ user.firstLastName }}</mat-card-title>
       <mat-card-subtitle>{{ user.username }}</mat-card-subtitle>
     </mat-card-header>
-
+    <mat-divider></mat-divider>
     <mat-card-content>
+      <br/>
       <p><strong>Nombre completo:</strong> {{ user.firstName }} {{ user.secondName }} {{ user.firstLastName }} {{ user.secondLastName }}</p>
       <p><strong>Email:</strong> {{ user.email }}</p>
       <p><strong>RUT:</strong> {{ user.rut }}</p>
       <p><strong>Creado:</strong> {{ user.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
       <p><strong>Actualizado:</strong> {{ user.updatedAt | date:'dd/MM/yyyy HH:mm' }}</p>
     </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-flat-button color="primary" (click)="openChangePassword()">
+        Cambiar contraseña
+      </button>
+    </mat-card-actions>
   </mat-card>
 </div>
 }
-

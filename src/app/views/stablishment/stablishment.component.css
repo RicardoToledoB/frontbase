@@ -2,6 +2,10 @@
   margin: 20px;
 }
 
+.spacer {
+  flex: 1 1 auto;
+}
+
 .dashboard-card {
   position: absolute;
   top: 15px;

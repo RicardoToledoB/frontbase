@@ -1,11 +1,56 @@
-<h2 mat-dialog-title>New</h2>
-<mat-dialog-content class="mat-typography">
-  <mat-form-field appearance="outline" style="width:100%">
-    <mat-label>Nombre</mat-label>
-    <input matInput [(ngModel)]="name" placeholder="Ingrese un nombre" />
-  </mat-form-field>
+<h2 mat-dialog-title>{{ data?.id ? 'Editar Usuario' : 'Nuevo Usuario' }}</h2>
+
+<mat-dialog-content class="dialog-content">
+  <div class="form-grid">
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre</mat-label>
+      <input matInput [(ngModel)]="user.firstName" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Segundo nombre</mat-label>
+      <input matInput [(ngModel)]="user.secondName" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Apellido paterno</mat-label>
+      <input matInput [(ngModel)]="user.firstLastName" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Apellido materno</mat-label>
+      <input matInput [(ngModel)]="user.secondLastName" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>RUT</mat-label>
+      <input matInput [(ngModel)]="user.rut" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" [(ngModel)]="user.email" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput [(ngModel)]="user.username" required />
+    </mat-form-field>
+
+    <!-- Password: siempre visible.
+         Si está vacío en edición, no se envía al backend (no se modifica). -->
+    <mat-form-field appearance="outline">
+      <mat-label>Contraseña</mat-label>
+      <input matInput type="password" [(ngModel)]="user.password" [required]="!data?.id" />
+      <mat-hint *ngIf="data?.id">Déjala en blanco para no cambiarla</mat-hint>
+    </mat-form-field>
+  </div>
 </mat-dialog-content>
+
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button color="primary" (click)="save()">Guardar</button>
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-flat-button color="primary" (click)="save()" 
+          [disabled]="!user.firstName || !user.username || !user.email || (!data?.id && !user.password)">
+    Guardar
+  </button>
 </mat-dialog-actions>

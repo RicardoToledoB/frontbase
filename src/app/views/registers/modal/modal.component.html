@@ -1,33 +1,195 @@
-<h2 mat-dialog-title>{{ data.id ? 'Editar Registro' : 'Nuevo Registro' }}</h2>
+<h2 mat-dialog-title>{{ form.value.id ? 'Editar Registro' : 'Nuevo Registro' }}</h2>
 
-<mat-dialog-content class="mat-typography">
-  <mat-form-field appearance="outline" style="width: 100%">
-    <mat-label>N° Inventario</mat-label>
-    <input matInput [(ngModel)]="data.n_inventary" />
-  </mat-form-field>
+<mat-dialog-content [formGroup]="form" class="dialog-content">
+  <div class="form-grid">
 
-  <mat-form-field appearance="outline" style="width: 100%">
-    <mat-label>Descripción</mat-label>
-    <input matInput [(ngModel)]="data.description_property" />
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>N° Inventario</mat-label>
+      <input matInput formControlName="n_inventary" required />
+    </mat-form-field>
 
-  <mat-form-field appearance="outline" style="width: 100%">
-    <mat-label>Proyecto</mat-label>
-    <input matInput [(ngModel)]="data.project" />
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Descripción del bien</mat-label>
+      <input matInput formControlName="description_property" required />
+    </mat-form-field>
 
-  <mat-form-field appearance="outline" style="width: 100%">
-    <mat-label>Financiamiento</mat-label>
-    <input matInput [(ngModel)]="data.financing" />
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Marca</mat-label>
+      <input matInput formControlName="brand" />
+    </mat-form-field>
 
-  <mat-form-field appearance="outline" style="width: 100%">
-    <mat-label>Estado</mat-label>
-    <input matInput [(ngModel)]="data.state" />
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Modelo</mat-label>
+      <input matInput formControlName="model" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>N° Serie</mat-label>
+      <input matInput formControlName="n_serie" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Estado</mat-label>
+      <mat-select formControlName="state" required>
+        <mat-option value="PENDIENTE">Pendiente</mat-option>
+        <mat-option value="OPERATIVO">Operativo</mat-option>
+        <mat-option value="DADO DE BAJA">Dado de baja</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Establecimiento</mat-label>
+      <mat-select formControlName="stablishment" required>
+        <mat-option *ngFor="let s of stablishments" [value]="s.id">
+          {{ s.name }}
+        </mat-option>
+      </mat-select>
+      <mat-hint *ngIf="loadingStablishments">Cargando establecimientos...</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Observación</mat-label>
+      <textarea matInput formControlName="observation_state"></textarea>
+    </mat-form-field>
+
+    <!-- Documentos y valores -->
+    <mat-form-field appearance="outline">
+      <mat-label>N° Memo</mat-label>
+      <input matInput formControlName="n_memo" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Proyecto</mat-label>
+      <input matInput formControlName="project" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Financiamiento</mat-label>
+      <input matInput formControlName="financing" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Proveedor</mat-label>
+      <input matInput formControlName="provider" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>RUT Proveedor</mat-label>
+      <input matInput formControlName="rut_provider" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Valor de adquisición</mat-label>
+      <input matInput type="number" formControlName="acquisition_value" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Orden de compra</mat-label>
+      <input matInput formControlName="purchase_order" />
+    </mat-form-field>
+
+    <!-- 🔹 CAMPO FECHA -->
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha de recepción</mat-label>
+      <input matInput [matDatepicker]="picker1" formControlName="date_reception" />
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>N° Acta recepción</mat-label>
+      <input matInput formControlName="n_acta_reception" />
+    </mat-form-field>
+
+    <!-- 🔹 CAMPO FECHA -->
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha acta recepción</mat-label>
+      <input matInput [matDatepicker]="picker2" formControlName="date_acta_reception" />
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>N° Resolución Informativa</mat-label>
+      <input matInput formControlName="n_res_info" />
+    </mat-form-field>
+
+    <!-- 🔹 CAMPO FECHA -->
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha Resolución Informativa</mat-label>
+      <input matInput [matDatepicker]="picker3" formControlName="date_res_info" />
+      <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+      <mat-datepicker #picker3></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>N° Resolución Gore</mat-label>
+      <input matInput formControlName="n_res_gore" />
+    </mat-form-field>
+
+    <!-- 🔹 CAMPO FECHA -->
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha Resolución Gore</mat-label>
+      <input matInput [matDatepicker]="picker4" formControlName="date_res_gore" />
+      <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+      <mat-datepicker #picker4></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>N° Resolución Aceptación</mat-label>
+      <input matInput formControlName="n_res_accept" />
+    </mat-form-field>
+
+    <!-- 🔹 CAMPO FECHA -->
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha Resolución Aceptación</mat-label>
+      <input matInput [matDatepicker]="picker5" formControlName="date_res_accept" />
+      <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+      <mat-datepicker #picker5></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>N° Factura</mat-label>
+      <input matInput formControlName="n_fact" />
+    </mat-form-field>
+
+    <!-- 🔹 CAMPO FECHA -->
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha Factura</mat-label>
+      <input matInput [matDatepicker]="picker6" formControlName="date_fact" />
+      <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+      <mat-datepicker #picker6></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Monto Factura</mat-label>
+      <input matInput formControlName="amount_fact" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>N° Guía Despacho</mat-label>
+      <input matInput formControlName="n_dispatch_guide" />
+    </mat-form-field>
+
+    <!-- 🔹 CAMPO FECHA -->
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha Guía Despacho</mat-label>
+      <input matInput [matDatepicker]="picker7" formControlName="date_dispatch_guide" />
+      <mat-datepicker-toggle matSuffix [for]="picker7"></mat-datepicker-toggle>
+      <mat-datepicker #picker7></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Monto Guía Despacho</mat-label>
+      <input matInput formControlName="amount_dispatch_guide" />
+    </mat-form-field>
+
+  </div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancelar</button>
-  <button mat-button color="primary" (click)="save()">Guardar</button>
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid">
+    Guardar
+  </button>
 </mat-dialog-actions>
