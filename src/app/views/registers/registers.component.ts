@@ -48,7 +48,9 @@ export class RegistersComponent implements OnInit {
     'description_property',
     'stablishment',
     'state',
+    'createdAt',
     'user',
+    'updatedAt',
     'actions',
   ];
 
@@ -58,6 +60,7 @@ export class RegistersComponent implements OnInit {
   pageIndex = 0;
   searchTerm = '';
   isLoading = false;
+  showingDeleted = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -71,6 +74,24 @@ export class RegistersComponent implements OnInit {
   ngOnInit(): void {
     this.loadRegisters();
   }
+
+  exportExcel(): void {
+  const type = this.showingDeleted ? 'deleted' : 'active';
+  this.registerService.exportExcel(type, this.searchTerm).subscribe({
+    next: (blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Inventario_${type}${this.searchTerm ? '_filter' : ''}.xlsx`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+      this.showMessage(`Excel (${type}) exportado correctamente`);
+    },
+    error: () => this.showMessage('Error al exportar Excel'),
+  });
+}
+
+
 
   loadRegisters(): void {
     this.isLoading = true;
@@ -95,12 +116,7 @@ export class RegistersComponent implements OnInit {
     this.loadRegisters();
   }
 
-  applyFilter(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.searchTerm = input.value.trim().toLowerCase();
-    this.pageIndex = 0;
-    this.loadRegisters();
-  }
+  
 
   openModal(register?: Register): void {
     const dialogRef = this.dialog.open(ModalComponent, {
@@ -150,4 +166,79 @@ export class RegistersComponent implements OnInit {
   private showMessage(msg: string): void {
     this.snackBar.open(msg, 'Cerrar', { duration: 3000 });
   }
+
+  deleteRegister(id: number): void {
+  if (confirm('¿Desea eliminar este registro?')) {
+    this.registerService.delete(id).subscribe({
+      next: () => {
+        this.showMessage('Registro eliminado correctamente');
+        this.loadRegisters();
+      },
+      error: () => this.showMessage('Error al eliminar registro'),
+    });
+  }
+}
+
+restoreRegister(id: number): void {
+  if (confirm('¿Desea restaurar este registro?')) {
+    this.registerService.restore(id).subscribe({
+      next: () => {
+        this.showMessage('Registro restaurado correctamente');
+        this.loadDeleted(); // recargar lista de eliminados
+      },
+      error: () => this.showMessage('Error al restaurar registro'),
+    });
+  }
+}
+
+loadActive(): void {
+  this.isLoading = true;
+  this.showingDeleted = false;
+  this.registerService
+    .getPaginated(this.pageIndex, this.pageSize, 'id,asc', this.searchTerm)
+    .subscribe({
+      next: (res) => {
+        this.dataSource.data = res.content;
+        this.totalElements = res.totalElements;
+        this.isLoading = false;
+      },
+      error: () => (this.isLoading = false),
+    });
+}
+
+
+
+loadDeleted(): void {
+  this.showingDeleted = true;
+  this.isLoading = true;
+  this.pageIndex = 0; // 🟩 reiniciar paginación
+
+  this.registerService
+    .getDeletedPaginated(this.pageIndex, this.pageSize, this.searchTerm)
+    .subscribe({
+      next: (res) => {
+        this.dataSource.data = res.content;
+        this.totalElements = res.totalElements;
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
+        this.showMessage('Error al cargar eliminados');
+      },
+    });
+}
+
+applyFilter(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  this.searchTerm = input.value.trim().toLowerCase();
+  this.pageIndex = 0;
+
+  if (this.showingDeleted) {
+    this.loadDeleted();
+  } else {
+    this.loadRegisters();
+  }
+}
+
+
 }

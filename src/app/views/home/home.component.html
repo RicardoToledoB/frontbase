@@ -27,5 +27,38 @@
       </button>
     </mat-card-actions>
   </mat-card>
+
+   <!-- RESUMEN POR ESTABLECIMIENTO -->
+  <br/>
+  <h2 class="mat-h2">
+  Resumen de Bienes por Establecimiento
+  <span class="total-label">(Total {{ totalGeneral }})</span>
+</h2>
+<mat-divider></mat-divider>
+<br/>
+
+<div class="summary-grid">
+  <mat-card *ngFor="let item of resumen; let i = index"
+            class="summary-card"
+            matBadge="item.total"
+            matBadgeColor="primary"
+            matBadgeSize="large"
+            matBadgePosition="above after"
+            matBadgeOverlap="false">
+    
+    <mat-card-header>
+      <mat-icon color="primary">location_city</mat-icon>
+      <mat-card-title>{{ item.stablishment }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="kpi">
+      <div class="kpi-number color-{{ i % 5 }}">{{ item.total }}</div>
+      <div class="kpi-label">Registros</div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+  
 </div>
 }

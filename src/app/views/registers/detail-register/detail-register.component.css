@@ -1,0 +1,28 @@
+.chip {
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.create {
+  background: #2ecc71;
+}
+.update {
+  background: #3498db;
+}
+.delete {
+  background: #e74c3c;
+}
+.restore {
+  background: #f39c12;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mt-3 {
+  margin-top: 20px;
+}

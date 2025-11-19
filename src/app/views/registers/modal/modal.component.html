@@ -7,13 +7,13 @@
   <div class="form-grid">
 
     <mat-form-field appearance="outline">
-      <mat-label>N° Inventario</mat-label>
-      <input matInput formControlName="n_inventary" required />
+      <mat-label>N° de registro</mat-label>
+      <input matInput formControlName="n_inventary"  />
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Descripción del bien</mat-label>
-      <input matInput formControlName="description_property" required />
+      <input matInput formControlName="description_property"  />
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -33,10 +33,10 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Estado</mat-label>
-      <mat-select formControlName="state" required>
+      <mat-select formControlName="state">
         <mat-option value="PENDIENTE">Pendiente</mat-option>
-        <mat-option value="OPERATIVO">Operativo</mat-option>
-        <mat-option value="DADO DE BAJA">Dado de baja</mat-option>
+        <mat-option value="EN TRAMITE">En Tramite</mat-option>
+        <mat-option value="FINALIZADO">Finalizado</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -93,7 +93,7 @@
 
     <!-- 🔹 CAMPO FECHA -->
     <mat-form-field appearance="outline">
-      <mat-label>Fecha de recepción</mat-label>
+      <mat-label>Fecha de recepcion Memo</mat-label>
       <input matInput [matDatepicker]="picker1" formControlName="date_reception" />
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
@@ -181,11 +181,13 @@
       <mat-datepicker-toggle matSuffix [for]="picker7"></mat-datepicker-toggle>
       <mat-datepicker #picker7></mat-datepicker>
     </mat-form-field>
-
+ <!-- DIA/MES/AÑO-->
     <mat-form-field appearance="outline">
       <mat-label>Monto Guía Despacho</mat-label>
       <input matInput formControlName="amount_dispatch_guide" />
     </mat-form-field>
+
+    <!--Agregar numero de inventario-->
 
   </div>
 </mat-dialog-content>

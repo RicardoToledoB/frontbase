@@ -6,9 +6,10 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/security/auth.service';
 import { User } from '../../models/User';
-import { ChangePasswordComponent } from './change-password.component/change-password.component';
+import { ChangePasswordComponent } from '../utils/change-password.component/change-password.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDivider } from "@angular/material/divider";
+import { RegisterService } from '../../services/register.service';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -25,11 +26,15 @@ import { MatDivider } from "@angular/material/divider";
 })
 export class HomeComponent implements OnInit {
   user?: User;
+   
+  resumen: any[] = [];
+   totalGeneral: number = 0;
 
   constructor(
     private userService: UserService,
     private authService: AuthService,
-    private dialog: MatDialog  // ✅ CORREGIDO
+    private dialog: MatDialog ,
+    private registerService: RegisterService // ✅ CORREGIDO
   ) {}
 
   ngOnInit(): void {
@@ -40,7 +45,18 @@ export class HomeComponent implements OnInit {
         error: (err) => console.error('Error cargando usuario', err)
       });
     }
+
+    this.registerService.getSummaryByStablishment().subscribe({
+        next: (data) => {
+        this.resumen = data;
+        // Calcula el total sumando los "total" de cada establecimiento
+        this.totalGeneral = data.reduce((acc, item) => acc + Number(item.total), 0);
+      },
+      error: (err) => console.error('Error cargando resumen', err)
+    });
   }
+
+ 
 
   openChangePassword(): void {
     if (!this.user) return;

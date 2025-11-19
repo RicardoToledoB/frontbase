@@ -48,4 +48,20 @@ export class UserService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  getActive() {
+  return this.http.get<User[]>(`${this.apiUrl}`);
+}
+
+getDeleted() {
+  return this.http.get<User[]>(`${this.apiUrl}/deleted`);
+}
+
+restore(id: number) {
+  return this.http.post(`${this.apiUrl}/${id}/restore`, {});
+}
+
+exportExcel(type: 'active' | 'deleted') {
+  return this.http.get(`${this.apiUrl}/export?type=${type}`, { responseType: 'blob' });
+}
 }

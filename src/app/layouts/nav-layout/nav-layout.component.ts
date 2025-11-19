@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { RouterModule, RouterOutlet } from '@angular/router';
@@ -14,6 +16,7 @@ import { MatExpansionModule } from '@angular/material/expansion';  // 👈 Aquí
 import { AuthService } from '../../services/security/auth.service';
 import { User } from '../../models/User';
 import { UserService } from '../../services/user.service';
+import { ChangePasswordComponent } from '../../views/utils/change-password.component/change-password.component';
 
 @Component({
   selector: 'app-nav-layout',
@@ -53,7 +56,7 @@ export class NavLayoutComponent {
     
       constructor(
         private userService: UserService,
-        
+        private dialog: MatDialog ,
       ) {}
     
       ngOnInit(): void {
@@ -68,4 +71,23 @@ export class NavLayoutComponent {
           });
         }
       }
+
+      openChangePassword(): void {
+    if (!this.user) return;
+
+    const dialogRef = this.dialog.open(ChangePasswordComponent, {
+      width: '400px',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        const { oldPassword, newPassword } = result;
+        this.userService.changePassword(this.user!.id!, oldPassword, newPassword).subscribe({
+          next: () => alert('Contraseña cambiada correctamente'),
+          error: (err) => alert(err.error?.message || 'Error al cambiar la contraseña')
+        });
+      }
+    });
+  }
 }

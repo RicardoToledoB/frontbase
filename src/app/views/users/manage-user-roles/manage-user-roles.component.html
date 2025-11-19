@@ -1,0 +1,46 @@
+<h2 mat-dialog-title>Roles de {{ user.username }}</h2>
+
+<mat-dialog-content>
+
+  <!-- SELECT PARA AGREGAR ROL -->
+  <mat-form-field class="w-100">
+    <mat-label>Seleccionar rol</mat-label>
+    <mat-select [(ngModel)]="selectedRoleId">
+      <mat-option *ngFor="let r of roles" [value]="r.id">
+        {{ r.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="addRole()">
+    <mat-icon>add</mat-icon> Agregar Rol
+  </button>
+
+  <br><br>
+
+  <!-- TABLA DE ROLES ASIGNADOS -->
+  <table mat-table [dataSource]="assigned" class="mat-elevation-z1">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Rol</th>
+      <td mat-cell *matCellDef="let r">{{ r.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let r">
+        <button mat-icon-button color="warn" (click)="removeRole(r)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cerrar</button>
+</mat-dialog-actions>

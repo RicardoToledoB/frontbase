@@ -42,4 +42,5 @@ export interface Register {
     email: string;
   };
   createdAt?: string;
+  updatedAt?: string;
 }
